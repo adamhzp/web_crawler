@@ -31,7 +31,7 @@ class Spider():
 	@staticmethod
 	def crawl_page(thread_name, page_url):
 		if page_url not in Spider.crawled:
-			print(thread_name + 'is now crawling '+page_url)
+			print(thread_name + ' is now crawling '+page_url)
 			print('Queue '+ str(len(Spider.queue))+ ' | Crawled '+ str(len(Spider.crawled)))
 			Spider.add_links_to_queue(Spider.gather_links(page_url)) 
 			Spider.queue.remove(page_url)
@@ -43,9 +43,11 @@ class Spider():
 		html_string = ''
 		try:
 			response = urlopen(page_url)
-			if response.getheader('Content-Type') == 'text/html':
-				html_bytes = response.read()	#get the raw data of response
-				html_string = html_bytes.decode('utf-8')
+			#if response.getheader('Content-Type') == 'text/html':
+			html_bytes = response.read()	#get the raw data of response
+			html_string = html_bytes.decode('utf-8')
+			#else:
+			#	print('Not html')
 
 			finder = LinkFinder(Spider.base_url, page_url)
 			finder.feed(html_string)
